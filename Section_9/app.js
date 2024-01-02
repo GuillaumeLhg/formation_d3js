@@ -73,10 +73,12 @@ const maj = (donnee) => {
 
     // mis à jour des rectangles déjà présent dans le dom
     rects.attr('width', x.bandwidth())
-        .attr('height', function (d) { return graphHeight - y(d.prix) })
         .attr('fill', 'teal')
         .attr('x', function (d) { return x(d.nom) })
-        .attr('y', function (d) { return y(d.prix) });
+        .transition()
+        .duration(600)
+        .attr('y', function (d) { return y(d.prix) })
+        .attr('height', function (d) { return graphHeight - y(d.prix) });
 
     // fonction exit
     rects.exit().remove();
@@ -85,10 +87,14 @@ const maj = (donnee) => {
     rects.enter()
         .append('rect')
         .attr('width', x.bandwidth())
-        .attr('height', function (d) { return graphHeight - y(d.prix) })
+        .attr('height', 0)
         .attr('fill', 'teal')
         .attr('x', function (d) { return x(d.nom) })
-        .attr('y', function (d) { return y(d.prix) });
+        .attr('y', graphHeight)
+        .transition()
+        .duration(600)
+        .attr('y', function (d) { return y(d.prix) })
+        .attr('height', function (d) { return graphHeight - y(d.prix) });
 
     // appel des axes
     groupeX.call(axeX)
